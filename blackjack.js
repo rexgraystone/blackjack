@@ -10,12 +10,17 @@ let printScore = document.getElementById("scoreboard-el")
 let printCards = document.getElementById("cards-el")
 let printSum = document.getElementById("sum-el")
 
+let dealBtn = document.getElementById("deal-btn")
+let hitBtn = document.getElementById("hit-btn")
+let standBtn = document.getElementById("stand-btn")
+let resetBtn = document.getElementById("reset-btn")
+
 function genNumber() {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 do {
-    let play = true
+    play = true
 
     let message = "Would you like to play a round?"
     printMessage.textContent = message
@@ -42,6 +47,8 @@ do {
         } else if (sum > 21) {
             message = "You Lost"
             console.log(message)
+            hitBtn.disabled = true
+            standBtn.disabled = true
             printMessage.textContent = message
         }
     }
@@ -56,13 +63,15 @@ do {
             console.log("Deal button clicked")
             blackjack()
         } else {
-            alert("Please click the 'Hit' button")
+            dealBtn.disabled = true
+            alert("Please click \'Hit\', \'Stand\', or '\Reset\'.")
             console.log("Deal button clicked")
         }
     }
     
     function hit() {
         if((firstCard || secondCard) != 0) {
+            hitBtn.disabled = false
             let newCard = genNumber()
             printCards.textContent += ` ${newCard}`
             sum += genNumber()
@@ -71,21 +80,37 @@ do {
             console.log("Hit button clicked")
             return sum
         } else {
+            hitBtn.disabled = true
             console.log("Hit button clicked")
-            alert("Please start a new game.")
+            alert("Please start a new game by clicking \'Deal\'.")
         }
     }
 
     function stand() {
-        play = false
-        gameCount++
-        console.log("Stand button clicked")
+        if((firstCard || secondCard) != 0) {
+            standBtn.disabled = false
+            play = false
+            gameCount++
+            printMessage.textContent = 
+            console.log("Stand button clicked")
+        } else {
+            standBtn.disabled = true
+            console.log("Stand button clicked")
+            alert("Please start a new game by clicking \'Deal\'.")
+        }
     }
 
     function reset() {
-        repeat = true
-        gameCount++
-        console.log("Restart button clicked")
+        if((firstCard || secondCard) != 0) {
+            resetBtn.disabled = false
+            repeat = true
+            gameCount++
+            console.log("Restart button clicked")
+        } else {
+            resetBtn.disabled = true
+            console.log("Reset button clicked")
+            alert("Please start a new game by clicking \'Deal\'.")
+        }
     }
 } 
 while((repeat === true) || (play === true))
