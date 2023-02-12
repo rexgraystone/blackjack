@@ -44,11 +44,11 @@ do {
     printDealerSum.textContent = "Dealer's Sum: "
 
     function blackjack() {
-        if((userSum < 21) || (dealerSum < 21)) {
+        if((userSum < 21) && (dealerSum < 21)) {
             message = "Would you like to draw another card?"
             console.log(message)
             printMessage.textContent = message
-        } else if ((userSum === 21) || (dealerSum > 21)) {
+        } else if (((userSum === 21) && (dealerSum != 21)) || ((dealerSum > 21) && (userSum <=21))) {
             message = "You've got blackjack!"
             winCount++
             winCount.toString()
@@ -57,6 +57,12 @@ do {
             printMessage.textContent = message
         } else if ((userSum > 21) || (dealerSum === 21)) {
             message = "You Lost"
+            console.log(message)
+            hitBtn.disabled = true
+            standBtn.disabled = true
+            printMessage.textContent = message
+        } else if ((userSum >= 21) && (dealerSum >= 21)) {
+            message = "You drew"
             console.log(message)
             hitBtn.disabled = true
             standBtn.disabled = true
